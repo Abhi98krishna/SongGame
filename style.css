@@ -1,0 +1,505 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Space+Grotesk:wght@400;600;700&display=swap");
+
+:root {
+  --ink: #1b1b1b;
+  --paper: #fef5ea;
+  --sun: #f9c784;
+  --teamA: #1f6fd6;
+  --good: #2f7d4a;
+  --danger: #c84b31;
+  --forest: #1f3d2b;
+  --mist: #f3e2d2;
+  --shadow: rgba(27, 27, 27, 0.16);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: radial-gradient(circle at top left, #f9c784, #fef5ea 45%, #f8d7bf 100%);
+  min-height: 100vh;
+  padding: clamp(1.2rem, 4vw, 3rem) clamp(1.2rem, 6vw, 6rem) 8.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: rgba(200, 75, 49, 0.15);
+  filter: blur(0.5px);
+  z-index: -1;
+}
+
+body::before {
+  top: -80px;
+  right: -40px;
+}
+
+body::after {
+  bottom: -120px;
+  left: -60px;
+}
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 1.8rem;
+  flex-wrap: wrap;
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.site-header h1 {
+  font-family: "Fraunces", "Georgia", serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  margin-top: 0.4rem;
+}
+
+.eyebrow {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  font-weight: 700;
+}
+
+.subtitle {
+  max-width: 28rem;
+  margin-top: 0.6rem;
+}
+
+.game {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  align-items: start;
+}
+
+.lyrics-card {
+  background: var(--paper);
+  border-radius: 1.5rem;
+  padding: 0 0 2rem;
+  box-shadow: 0 20px 45px var(--shadow);
+  display: grid;
+  gap: 1.2rem;
+}
+
+.sticky-bar {
+  position: sticky;
+  top: 0.8rem;
+  background: white;
+  border-radius: 1.2rem;
+  padding: 0.8rem 0.6rem;
+  margin: 0.4rem 0;
+  display: grid;
+  gap: 0.35rem;
+  box-shadow: 0 14px 30px rgba(27, 27, 27, 0.12);
+  z-index: 2;
+}
+
+.sticky-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.sticky-top h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.song-count {
+  font-size: 0.85rem;
+  color: rgba(27, 27, 27, 0.65);
+}
+
+.song-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.icon-button {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid rgba(27, 27, 27, 0.15);
+  background: white;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.icon-button svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.icon-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px rgba(27, 27, 27, 0.16);
+}
+
+.icon-button.icon-plain {
+  border: none;
+  box-shadow: none;
+}
+
+.icon-button.icon-plain:hover {
+  box-shadow: none;
+  transform: none;
+}
+
+.sticky-right {
+  display: contents;
+}
+
+.turn-main {
+  font-weight: 700;
+  font-size: 0.98rem;
+  white-space: nowrap;
+  color: white;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+}
+
+.turn-sub {
+  font-size: 0.82rem;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+}
+
+.turn-sub-row {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.row-left,
+.row-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.row-right {
+  justify-content: flex-end;
+}
+
+.team-a {
+  color: white;
+  background: var(--teamA);
+}
+
+.team-b {
+  color: white;
+  background: var(--danger);
+}
+
+.lyrics {
+  font-family: "Fraunces", "Georgia", serif;
+  font-size: clamp(1.1rem, 2.3vw, 1.6rem);
+  line-height: 1.6;
+  white-space: pre-line;
+  min-height: 260px;
+  max-height: 380px;
+  overflow-y: auto;
+  padding: 0 1.4rem;
+}
+
+.status {
+  min-height: 1.2rem;
+  font-size: 0.9rem;
+  color: rgba(27, 27, 27, 0.65);
+  padding: 0 1.4rem;
+}
+
+.button {
+  border: none;
+  border-radius: 999px;
+  padding: 0.85rem 1.6rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+  background: var(--mist);
+}
+
+.button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px var(--shadow);
+}
+
+.button:disabled {
+  cursor: default;
+  opacity: 0.75;
+  transform: none;
+  box-shadow: none;
+}
+
+.button.primary {
+  background: var(--good);
+  color: white;
+}
+
+.button.secondary {
+  background: var(--forest);
+  color: white;
+}
+
+.button.danger {
+  background: var(--danger);
+  color: white;
+}
+
+.button.ghost {
+  background: transparent;
+  border: 2px solid var(--ink);
+  color: var(--ink);
+}
+
+.button.highlight {
+  background: var(--sun);
+  font-weight: 700;
+}
+
+.button.tiny {
+  padding: 0.35rem 0.9rem;
+  font-size: 0.8rem;
+}
+
+.button.small {
+  padding: 0.45rem 1.1rem;
+  font-size: 0.85rem;
+}
+
+.bottom-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.9rem clamp(1.2rem, 6vw, 6rem) calc(1.2rem + env(safe-area-inset-bottom));
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(10px);
+  display: grid;
+  gap: 0.5rem;
+  box-shadow: 0 -12px 30px rgba(27, 27, 27, 0.12);
+  z-index: 3;
+}
+
+.bottom-actions {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hint-wrap {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.text-link {
+  border: none;
+  background: transparent;
+  color: rgba(27, 27, 27, 0.7);
+  font-size: 0.75rem;
+  text-decoration: underline;
+  cursor: pointer;
+  text-align: left;
+}
+
+.bottom-note {
+  font-size: 0.75rem;
+  text-align: center;
+  color: rgba(27, 27, 27, 0.6);
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(17, 17, 17, 0.45);
+  padding: 1.5rem;
+  z-index: 5;
+}
+
+.modal.open {
+  display: flex;
+}
+
+.modal-card {
+  background: white;
+  border-radius: 1.2rem;
+  padding: 1.8rem;
+  width: min(420px, 100%);
+  display: grid;
+  gap: 1rem;
+  box-shadow: 0 20px 45px rgba(27, 27, 27, 0.2);
+}
+
+.modal-note {
+  font-size: 0.9rem;
+  color: rgba(27, 27, 27, 0.7);
+}
+
+.winner-grid {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.winner-button {
+  border: 2px solid rgba(27, 27, 27, 0.18);
+  background: white;
+  padding: 1rem 1.2rem;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.winner-button.selected {
+  border-color: var(--teamA);
+  background: rgba(31, 111, 214, 0.12);
+  color: var(--teamA);
+}
+
+.winner-button.selected::after {
+  content: "✅";
+  font-size: 1rem;
+}
+
+.button.next-song {
+  background: var(--sun);
+  color: var(--ink);
+}
+
+.text-button {
+  border: none;
+  background: transparent;
+  color: var(--ink);
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-align: center;
+  align-self: center;
+}
+
+.field {
+  display: grid;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.field input,
+.field textarea {
+  padding: 0.7rem 0.9rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(27, 27, 27, 0.2);
+  font-size: 0.95rem;
+  font-family: inherit;
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 500;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.toast {
+  position: fixed;
+  bottom: 6.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--ink);
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+  z-index: 6;
+}
+
+.toast.show {
+  opacity: 1;
+}
+
+@media (max-width: 720px) {
+  body {
+    padding: 0.9rem 0.5rem 9rem;
+  }
+
+  .sticky-bar {
+    margin: 0.4rem 0.2rem 0;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .sticky-right {
+    text-align: left;
+  }
+
+  .sticky-top h2 {
+    font-size: 0.95rem;
+  }
+
+  .turn-main {
+    font-size: 0.92rem;
+  }
+
+  .lyrics {
+    padding: 0 1rem;
+  }
+
+  .bottom-actions {
+    flex-direction: column;
+  }
+
+  .bottom-actions .button {
+    width: 100%;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .modal-actions .button {
+    width: 100%;
+  }
+
+  .lyrics {
+    max-height: none;
+  }
+}
