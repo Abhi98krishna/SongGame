@@ -139,38 +139,27 @@ const showToast = (message) => {
   }, 2000);
 };
 
+const WORKER_URL = "https://songgame-translate.abhi98krishna.workers.dev/translate";
+
 const translateOriginal = async (text) => {
-  const endpoints = [
-    "https://translate.terraprint.co/translate",
-    "https://libretranslate.com/translate",
-    "https://translate.argosopentech.com/translate",
-  ];
-
-  for (const endpoint of endpoints) {
-    try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          q: text,
-          source: "auto",
-          target: "en",
-          format: "text",
-        }),
-      });
-      if (!response.ok) {
-        continue;
-      }
-      const data = await response.json();
-      if (data && data.translatedText) {
-        return data.translatedText;
-      }
-    } catch (error) {
-      continue;
-    }
+  const response = await fetch(WORKER_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      q: text,
+      source: "auto",
+      target: "en",
+      format: "text",
+    }),
+  });
+  if (!response.ok) {
+    throw new Error("Translate failed");
   }
-
-  throw new Error("Translate failed");
+  const data = await response.json();
+  if (!data || !data.translatedText) {
+    throw new Error("Translate failed");
+  }
+  return data.translatedText;
 };
 
 const renderSong = (song) => {
