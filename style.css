@@ -214,6 +214,16 @@ body::after {
   transform: none;
 }
 
+.icon-button.icon-large {
+  width: 42px;
+  height: 42px;
+}
+
+.icon-button.icon-large svg {
+  width: 20px;
+  height: 20px;
+}
+
 .row-left,
 .row-right {
   display: flex;
@@ -612,6 +622,16 @@ body::after {
   .icon-button svg {
     width: 14px;
     height: 14px;
+  }
+
+  .icon-button.icon-large {
+    width: 38px;
+    height: 38px;
+  }
+
+  .icon-button.icon-large svg {
+    width: 18px;
+    height: 18px;
   }
 
   .lyrics {

@@ -33,6 +33,7 @@ const hideHint = document.querySelector("#hideHint");
 const hintLabel = document.querySelector("#hintLabel");
 const statusMessage = document.querySelector("#statusMessage");
 const copyLyrics = document.querySelector("#copyLyrics");
+const readAloud = document.querySelector("#readAloud");
 const turnMain = document.querySelector("#teamMain");
 const turnSub = document.querySelector("#teamSub");
 const teamABox = document.querySelector("#teamABox");
@@ -81,6 +82,7 @@ let selectedWinner = "none";
 let toastTimeout = null;
 let awaitingConfirm = false;
 let lastOriginalTranslated = "";
+let isSpeaking = false;
 
 const shuffleDeck = () => {
   deck = baseDeck
@@ -289,6 +291,37 @@ copyLyrics.addEventListener("click", async () => {
   } catch (error) {
     showToast("Copy failed");
   }
+});
+
+readAloud.addEventListener("click", () => {
+  const text = lyrics.textContent.trim();
+  if (!text) {
+    showToast("Nothing to read.");
+    return;
+  }
+  if (!("speechSynthesis" in window)) {
+    showToast("Read aloud not supported.");
+    return;
+  }
+  if (window.speechSynthesis.speaking || isSpeaking) {
+    window.speechSynthesis.cancel();
+    isSpeaking = false;
+    showToast("Read aloud stopped.");
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.rate = 0.95;
+  utterance.pitch = 1;
+  utterance.onend = () => {
+    isSpeaking = false;
+  };
+  utterance.onerror = () => {
+    isSpeaking = false;
+    showToast("Read aloud failed.");
+  };
+  isSpeaking = true;
+  window.speechSynthesis.speak(utterance);
 });
 
 startGame.addEventListener("click", () => {
