@@ -483,6 +483,14 @@ body::after {
   color: rgba(27, 27, 27, 0.7);
 }
 
+.highlight-note {
+  background: rgba(31, 111, 214, 0.12);
+  color: #0f3d7a;
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+}
+
 .winner-grid {
   display: grid;
   gap: 0.6rem;

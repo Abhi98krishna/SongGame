@@ -11,7 +11,7 @@
       <div>
         <div class="title-row">
           <p class="eyebrow">Song Game</p>
-          <button class="button ghost small" id="openAddSong" type="button">Add song</button>
+          <button class="button ghost small" id="openAddSong" type="button">Add more songs</button>
         </div>
         <h1>Lost in Translation</h1>
         <p class="subtitle">Read the translation, sing it like the original song.</p>
@@ -27,9 +27,10 @@
           <ul class="welcome-list">
             <li>Create 2 teams and set their names.</li>
             <li>One player reads the English translation aloud.</li>
-            <li>Their team guesses the Bollywood song.</li>
+            <li>Both teams can guess the Bollywood song.</li>
             <li>Correct by singer team: +10 points.</li>
             <li>Correct by opponent team: +5 points.</li>
+            <li>Next round starts with the other team.</li>
           </ul>
         </div>
         <div class="welcome-block">
@@ -144,18 +145,18 @@
     <div class="modal" id="addSongModal" aria-hidden="true">
       <div class="modal-card">
         <h3>Add a song</h3>
-        <p class="modal-note">20 default songs are already loaded.</p>
+        <p class="modal-note highlight-note">20 default songs are already loaded.</p>
         <label class="field">
           <span>Song title</span>
           <input type="text" id="newTitle" placeholder="Song title" />
         </label>
         <label class="field">
-          <span>Translated lyrics</span>
-          <textarea id="newTranslation" rows="5" placeholder="Paste the English translation here"></textarea>
-        </label>
-        <label class="field">
           <span>Original lyrics (optional)</span>
           <textarea id="newOriginal" rows="4" placeholder="Paste the original stanza to auto-translate"></textarea>
+        </label>
+        <label class="field">
+          <span>Translated lyrics</span>
+          <textarea id="newTranslation" rows="5" placeholder="Paste the English translation here"></textarea>
         </label>
         <div class="modal-actions">
           <button class="button ghost" id="closeAddSong" type="button">Close</button>

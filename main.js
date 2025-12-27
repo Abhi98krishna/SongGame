@@ -79,6 +79,8 @@ let isRevealed = false;
 const addedQueue = [];
 let selectedWinner = "none";
 let toastTimeout = null;
+let awaitingConfirm = false;
+let lastOriginalTranslated = "";
 
 const shuffleDeck = () => {
   deck = baseDeck
@@ -295,6 +297,7 @@ startGame.addEventListener("click", () => {
 
 openAddSong.addEventListener("click", () => {
   openModal(addSongModal);
+  showToast("20 default songs are already loaded.");
 });
 
 closeAddSong.addEventListener("click", () => {
@@ -346,18 +349,28 @@ addSong.addEventListener("click", async () => {
     }
   }
   let finalTranslation = translation;
-  if (!finalTranslation && original) {
+  if (original && original !== lastOriginalTranslated) {
     try {
       addSong.disabled = true;
       addSong.textContent = "Translating...";
       finalTranslation = await translateOriginal(original);
       newTranslation.value = finalTranslation;
+      lastOriginalTranslated = original;
+      awaitingConfirm = true;
+      addSong.disabled = false;
+      addSong.textContent = "Confirm & add";
+      showToast("Review translation, then confirm.");
+      return;
     } catch (error) {
       showToast("Translation failed. Paste English manually.");
       addSong.disabled = false;
       addSong.textContent = "Submit";
       return;
     }
+  }
+  if (awaitingConfirm && !finalTranslation) {
+    showToast("Translation missing. Paste English.");
+    return;
   }
   addedQueue.push({
     title,
@@ -368,9 +381,17 @@ addSong.addEventListener("click", async () => {
   newTitle.value = "";
   newTranslation.value = "";
   newOriginal.value = "";
+  lastOriginalTranslated = "";
   closeModal(addSongModal);
   showToast("Song added");
+  awaitingConfirm = false;
   addSong.disabled = false;
+  addSong.textContent = "Submit";
+});
+
+newOriginal.addEventListener("input", () => {
+  awaitingConfirm = false;
+  lastOriginalTranslated = "";
   addSong.textContent = "Submit";
 });
 
