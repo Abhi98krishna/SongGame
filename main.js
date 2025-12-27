@@ -140,21 +140,37 @@ const showToast = (message) => {
 };
 
 const translateOriginal = async (text) => {
-  const response = await fetch("https://libretranslate.de/translate", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      q: text,
-      source: "auto",
-      target: "en",
-      format: "text",
-    }),
-  });
-  if (!response.ok) {
-    throw new Error("Translate failed");
+  const endpoints = [
+    "https://translate.terraprint.co/translate",
+    "https://libretranslate.com/translate",
+    "https://translate.argosopentech.com/translate",
+  ];
+
+  for (const endpoint of endpoints) {
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          q: text,
+          source: "auto",
+          target: "en",
+          format: "text",
+        }),
+      });
+      if (!response.ok) {
+        continue;
+      }
+      const data = await response.json();
+      if (data && data.translatedText) {
+        return data.translatedText;
+      }
+    } catch (error) {
+      continue;
+    }
   }
-  const data = await response.json();
-  return data.translatedText;
+
+  throw new Error("Translate failed");
 };
 
 const renderSong = (song) => {
