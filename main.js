@@ -30,11 +30,21 @@ const roundCount = document.querySelector("#roundCount");
 const lyrics = document.querySelector("#lyrics");
 const revealToggle = document.querySelector("#revealToggle");
 const hideHint = document.querySelector("#hideHint");
+const hintLabel = document.querySelector("#hintLabel");
 const statusMessage = document.querySelector("#statusMessage");
 const copyLyrics = document.querySelector("#copyLyrics");
-const turnMain = document.querySelector("#turnMain");
-const turnSub = document.querySelector("#turnSub");
-const openEditScores = document.querySelector("#openEditScores");
+const turnMain = document.querySelector("#teamMain");
+const turnSub = document.querySelector("#teamSub");
+const teamABox = document.querySelector("#teamABox");
+const teamBBox = document.querySelector("#teamBBox");
+const welcomeModal = document.querySelector("#welcomeModal");
+const gameScreen = document.querySelector("#gameScreen");
+const bottomBar = document.querySelector("#bottomBar");
+const startGame = document.querySelector("#startGame");
+const setupTeamA = document.querySelector("#setupTeamA");
+const setupTeamB = document.querySelector("#setupTeamB");
+const lyricsCard = document.querySelector("#lyricsCard");
+const editTeamButtons = document.querySelectorAll(".edit-team");
 const editScoresModal = document.querySelector("#editScoresModal");
 const closeEditScores = document.querySelector("#closeEditScores");
 const saveEditScores = document.querySelector("#saveEditScores");
@@ -47,6 +57,7 @@ const addSongModal = document.querySelector("#addSongModal");
 const closeAddSong = document.querySelector("#closeAddSong");
 const newTitle = document.querySelector("#newTitle");
 const newTranslation = document.querySelector("#newTranslation");
+const newOriginal = document.querySelector("#newOriginal");
 const addSong = document.querySelector("#addSong");
 const endRound = document.querySelector("#endRound");
 const roundModal = document.querySelector("#roundModal");
@@ -97,15 +108,16 @@ const updateRoundCount = () => {
 };
 
 const updateTurnDisplay = () => {
-  const activeLabel = `${teamNames[activeTeam]} (${scores[activeTeam]}) turn`;
-  const otherIndex = activeTeam === 0 ? 1 : 0;
-  const otherLabel = `${teamNames[otherIndex]} (${scores[otherIndex]})`;
-  turnMain.textContent = activeLabel;
-  turnSub.textContent = otherLabel;
-  turnMain.classList.toggle("team-a", activeTeam === 0);
-  turnMain.classList.toggle("team-b", activeTeam === 1);
-  turnSub.classList.toggle("team-b", activeTeam === 0);
-  turnSub.classList.toggle("team-a", activeTeam === 1);
+  const teamALabel = `${teamNames[0]} (${scores[0]})${activeTeam === 0 ? " turn" : ""}`;
+  const teamBLabel = `${teamNames[1]} (${scores[1]})${activeTeam === 1 ? " turn" : ""}`;
+  turnMain.textContent = teamALabel;
+  turnSub.textContent = teamBLabel;
+  teamABox.classList.toggle("active", activeTeam === 0);
+  teamBBox.classList.toggle("active", activeTeam === 1);
+  teamABox.classList.toggle("inactive", activeTeam !== 0);
+  teamBBox.classList.toggle("inactive", activeTeam !== 1);
+  lyricsCard.classList.toggle("team-a-active", activeTeam === 0);
+  lyricsCard.classList.toggle("team-b-active", activeTeam === 1);
 };
 
 const updateTeamUI = () => {
@@ -127,15 +139,33 @@ const showToast = (message) => {
   }, 2000);
 };
 
+const translateOriginal = async (text) => {
+  const response = await fetch("https://libretranslate.de/translate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      q: text,
+      source: "auto",
+      target: "en",
+      format: "text",
+    }),
+  });
+  if (!response.ok) {
+    throw new Error("Translate failed");
+  }
+  const data = await response.json();
+  return data.translatedText;
+};
+
 const renderSong = (song) => {
   currentSong = song;
   updateRoundCount();
   lyrics.textContent = song.translation;
   isRevealed = false;
-  revealToggle.textContent = "Hint: song name";
+  hintLabel.textContent = "Hint: song name";
   revealToggle.classList.remove("revealed");
   hideHint.classList.add("is-hidden");
-  setStatus("Pass the phone to the singer.");
+  setStatus("");
 };
 
 const openModal = (modal) => {
@@ -146,6 +176,22 @@ const openModal = (modal) => {
 const closeModal = (modal) => {
   modal.classList.remove("open");
   modal.setAttribute("aria-hidden", "true");
+};
+
+const startGameFlow = () => {
+  const nameA = setupTeamA.value.trim();
+  const nameB = setupTeamB.value.trim();
+  if (nameA) {
+    teamNames[0] = nameA;
+  }
+  if (nameB) {
+    teamNames[1] = nameB;
+  }
+  updateTeamNames();
+  welcomeModal.classList.remove("open");
+  welcomeModal.setAttribute("aria-hidden", "true");
+  gameScreen.classList.remove("is-hidden");
+  bottomBar.classList.remove("is-hidden");
 };
 
 const setWinnerSelection = (value) => {
@@ -208,17 +254,18 @@ revealToggle.addEventListener("click", () => {
     return;
   }
   isRevealed = true;
-  revealToggle.textContent = currentSong.title;
+  hintLabel.textContent = currentSong.title;
   revealToggle.classList.add("revealed");
   hideHint.classList.remove("is-hidden");
 });
 
-hideHint.addEventListener("click", () => {
+hideHint.addEventListener("click", (event) => {
+  event.stopPropagation();
   if (!isRevealed) {
     return;
   }
   isRevealed = false;
-  revealToggle.textContent = "Hint: song name";
+  hintLabel.textContent = "Hint: song name";
   revealToggle.classList.remove("revealed");
   hideHint.classList.add("is-hidden");
 });
@@ -237,6 +284,10 @@ copyLyrics.addEventListener("click", async () => {
   }
 });
 
+startGame.addEventListener("click", () => {
+  startGameFlow();
+});
+
 openAddSong.addEventListener("click", () => {
   openModal(addSongModal);
 });
@@ -245,9 +296,11 @@ closeAddSong.addEventListener("click", () => {
   closeModal(addSongModal);
 });
 
-openEditScores.addEventListener("click", () => {
-  syncEditModal();
-  openModal(editScoresModal);
+editTeamButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    syncEditModal();
+    openModal(editScoresModal);
+  });
 });
 
 closeEditScores.addEventListener("click", () => {
@@ -273,23 +326,47 @@ saveEditScores.addEventListener("click", () => {
   showToast("Scores updated");
 });
 
-addSong.addEventListener("click", () => {
+addSong.addEventListener("click", async () => {
   const title = newTitle.value.trim();
   const translation = newTranslation.value.trim();
+  const original = newOriginal.value.trim();
   if (!title || !translation) {
-    showToast("Add a title and lyrics");
-    return;
+    if (!title) {
+      showToast("Add a title");
+      return;
+    }
+    if (!original) {
+      showToast("Add a translation or original lyrics");
+      return;
+    }
+  }
+  let finalTranslation = translation;
+  if (!finalTranslation && original) {
+    try {
+      addSong.disabled = true;
+      addSong.textContent = "Translating...";
+      finalTranslation = await translateOriginal(original);
+      newTranslation.value = finalTranslation;
+    } catch (error) {
+      showToast("Translation failed. Paste English manually.");
+      addSong.disabled = false;
+      addSong.textContent = "Submit";
+      return;
+    }
   }
   addedQueue.push({
     title,
-    translation,
+    translation: finalTranslation,
   });
   totalCount += 1;
   updateRoundCount();
   newTitle.value = "";
   newTranslation.value = "";
+  newOriginal.value = "";
   closeModal(addSongModal);
   showToast("Song added");
+  addSong.disabled = false;
+  addSong.textContent = "Submit";
 });
 
 endRound.addEventListener("click", () => {

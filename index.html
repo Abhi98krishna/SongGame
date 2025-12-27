@@ -18,16 +18,41 @@
       </div>
     </header>
 
-    <main class="game">
-      <section class="lyrics-card">
+    <div class="modal open" id="welcomeModal" aria-hidden="false">
+      <div class="modal-card welcome-card">
+        <h2>Welcome to Lost In Translation</h2>
+        <p class="welcome-subtitle">The Song Game</p>
+        <div class="welcome-block">
+          <h3>How to play</h3>
+          <ul class="welcome-list">
+            <li>Create 2 teams and set their names.</li>
+            <li>One player reads the English translation aloud.</li>
+            <li>Their team guesses the Bollywood song.</li>
+            <li>Correct by singer team: +10 points.</li>
+            <li>Correct by opponent team: +5 points.</li>
+          </ul>
+        </div>
+        <div class="welcome-block">
+          <h3>Set team names</h3>
+          <label class="field">
+            <span>Team A</span>
+            <input type="text" id="setupTeamA" placeholder="Team A" />
+          </label>
+          <label class="field">
+            <span>Team B</span>
+            <input type="text" id="setupTeamB" placeholder="Team B" />
+          </label>
+        </div>
+        <button class="button primary" id="startGame" type="button">Start</button>
+      </div>
+    </div>
+
+    <main class="game is-hidden" id="gameScreen">
+      <section class="lyrics-card team-a-active" id="lyricsCard">
         <div class="sticky-bar">
-          <div class="sticky-row sticky-top">
-            <h2>Sing the lyrics</h2>
-            <p class="turn-main team-a" id="turnMain">Team A (0) turn</p>
-          </div>
-          <div class="sticky-row sticky-bottom">
+          <div class="sticky-top">
             <div class="row-left">
-              <p class="song-count" id="roundCount">Song 1 of 5</p>
+              <h2>Sing the lyrics</h2>
               <button class="icon-button icon-plain" id="copyLyrics" type="button" aria-label="Copy lyrics">
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M16 1H6a2 2 0 0 0-2 2v12h2V3h10V1zm3 4H10a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H10V7h9v14z" />
@@ -35,25 +60,42 @@
               </button>
             </div>
             <div class="row-right">
-              <p class="turn-sub team-b" id="turnSub">Team B (0)</p>
-              <button class="icon-button icon-plain" id="openEditScores" type="button" aria-label="Edit team scores">
+              <p class="song-count" id="roundCount">Song 1 of 5</p>
+            </div>
+          </div>
+          <div class="sticky-bottom">
+            <div class="team-pill team-a" id="teamABox">
+              <span class="team-label" id="teamMain">Team A (0) turn</span>
+              <button class="edit-team" data-team="0" type="button" aria-label="Edit Team A">
                 <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zm2.92 2.33H5v-.92l8.81-8.8.92.91-8.8 8.81zM20.7 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.82 1.82 3.75 3.75 1.82-1.82z\" />
+                  <path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zm2.92 2.33H5v-.92l8.81-8.8.92.91-8.8 8.81zM20.7 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.82 1.82 3.75 3.75 1.82-1.82z" />
+                </svg>
+              </button>
+            </div>
+            <div class="team-pill team-b" id="teamBBox">
+              <span class="team-label" id="teamSub">Team B (0)</span>
+              <button class="edit-team" data-team="1" type="button" aria-label="Edit Team B">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zm2.92 2.33H5v-.92l8.81-8.8.92.91-8.8 8.81zM20.7 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.82 1.82 3.75 3.75 1.82-1.82z" />
                 </svg>
               </button>
             </div>
           </div>
         </div>
-        <div class="lyrics" id="lyrics"></div>
-        <p class="status" id="statusMessage"></p>
+        <div class="lyrics-shell">
+          <div class="lyrics" id="lyrics"></div>
+          <p class="status" id="statusMessage"></p>
+        </div>
       </section>
     </main>
 
-    <div class="bottom-bar">
+    <div class="bottom-bar is-hidden" id="bottomBar">
       <div class="bottom-actions">
         <div class="hint-wrap">
-          <button class="button ghost" id="revealToggle" type="button">Hint: song name</button>
-          <button class="text-link is-hidden" id="hideHint" type="button">Hide</button>
+          <button class="button ghost hint-button" id="revealToggle" type="button">
+            <span class="hint-label" id="hintLabel">Hint: song name</span>
+            <span class="text-link is-hidden" id="hideHint">Hide</span>
+          </button>
         </div>
         <button class="button highlight" id="endRound" type="button">End round</button>
       </div>
@@ -110,6 +152,10 @@
         <label class="field">
           <span>Translated lyrics</span>
           <textarea id="newTranslation" rows="5" placeholder="Paste the English translation here"></textarea>
+        </label>
+        <label class="field">
+          <span>Original lyrics (optional)</span>
+          <textarea id="newOriginal" rows="4" placeholder="Paste the original stanza to auto-translate"></textarea>
         </label>
         <div class="modal-actions">
           <button class="button ghost" id="closeAddSong" type="button">Close</button>

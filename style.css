@@ -10,6 +10,7 @@
   --forest: #1f3d2b;
   --mist: #f3e2d2;
   --shadow: rgba(27, 27, 27, 0.16);
+  --panel-inset: 0rem;
 }
 
 * {
@@ -93,33 +94,74 @@ body::after {
   align-items: start;
 }
 
+.welcome-card {
+  display: grid;
+  gap: 1.2rem;
+  width: min(560px, 100%);
+}
+
+.welcome-card h2 {
+  font-family: "Fraunces", "Georgia", serif;
+  font-size: 2rem;
+}
+
+.welcome-subtitle {
+  color: rgba(27, 27, 27, 0.7);
+}
+
+.welcome-block {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.welcome-block h3 {
+  font-size: 1rem;
+}
+
+.welcome-list {
+  margin-left: 1.2rem;
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.95rem;
+  color: rgba(27, 27, 27, 0.8);
+}
+
 .lyrics-card {
-  background: var(--paper);
+  background: transparent;
   border-radius: 1.5rem;
   padding: 0 0 2rem;
   box-shadow: 0 20px 45px var(--shadow);
   display: grid;
-  gap: 1.2rem;
+  gap: 0;
 }
 
 .sticky-bar {
   position: sticky;
   top: 0.8rem;
   background: white;
-  border-radius: 1.2rem;
-  padding: 0.8rem 0.6rem;
-  margin: 0.4rem 0;
+  border-radius: 1.1rem 1.1rem 0 0;
+  padding: 0.7rem 0.9rem 0;
+  margin: 0 auto;
+  width: 100%;
   display: grid;
-  gap: 0.35rem;
+  gap: 0.75rem;
   box-shadow: 0 14px 30px rgba(27, 27, 27, 0.12);
   z-index: 2;
 }
 
-.sticky-row {
+.sticky-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.6rem;
+}
+
+.sticky-bottom {
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+  margin: 0;
+  width: 100%;
 }
 
 .sticky-top h2 {
@@ -140,8 +182,8 @@ body::after {
 }
 
 .icon-button {
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   border-radius: 10px;
   border: 1px solid rgba(27, 27, 27, 0.15);
   background: white;
@@ -152,8 +194,8 @@ body::after {
 }
 
 .icon-button svg {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   fill: currentColor;
 }
 
@@ -172,52 +214,114 @@ body::after {
   transform: none;
 }
 
-.sticky-right {
-  display: contents;
-}
-
-.turn-main {
-  font-weight: 700;
-  font-size: 0.98rem;
-  white-space: nowrap;
-  color: white;
-  padding: 0.25rem 0.55rem;
-  border-radius: 999px;
-}
-
-.turn-sub {
-  font-size: 0.82rem;
-  color: white;
-  padding: 0.2rem 0.5rem;
-  border-radius: 999px;
-}
-
-.turn-sub-row {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 0.35rem;
-}
-
 .row-left,
 .row-right {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  min-width: 0;
 }
 
 .row-right {
   justify-content: flex-end;
+  justify-self: end;
+}
+
+.team-pill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.6rem 0.6rem;
+  border-radius: 0;
+  color: white;
+  flex: 0 0 40%;
+  min-height: 48px;
+}
+
+.team-pill .team-label {
+  font-weight: 600;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.team-pill.active {
+  flex: 0 0 60%;
+  min-height: 58px;
+}
+
+.team-pill.inactive {
+  flex: 0 0 38%;
+}
+
+.team-pill.active .team-label {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.team-pill.inactive .team-label {
+  font-size: 0.72rem;
 }
 
 .team-a {
-  color: white;
   background: var(--teamA);
+  border-top-left-radius: 0.9rem;
 }
 
 .team-b {
-  color: white;
   background: var(--danger);
+  border-top-right-radius: 0.9rem;
+}
+
+.team-pill.active.team-a {
+  border-top-right-radius: 0.9rem;
+}
+
+.team-pill.active.team-b {
+  border-top-left-radius: 0.9rem;
+}
+
+.lyrics-card.team-a-active {
+  background: transparent;
+}
+
+.lyrics-card.team-b-active {
+  background: transparent;
+}
+
+.lyrics-shell {
+  background: rgba(27, 27, 27, 0.02);
+  border-radius: 0 0 1.1rem 1.1rem;
+  padding: 1rem 0 1.4rem;
+  border: 2px solid transparent;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.lyrics-card.team-a-active .lyrics-shell {
+  background: rgba(31, 111, 214, 0.1);
+  border-color: var(--teamA);
+}
+
+.lyrics-card.team-b-active .lyrics-shell {
+  background: rgba(200, 75, 49, 0.1);
+  border-color: var(--danger);
+}
+
+.edit-team {
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.edit-team svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
 }
 
 .lyrics {
@@ -259,6 +363,10 @@ body::after {
   opacity: 0.75;
   transform: none;
   box-shadow: none;
+}
+
+.is-hidden {
+  display: none;
 }
 
 .button.primary {
@@ -321,6 +429,12 @@ body::after {
 .hint-wrap {
   display: grid;
   gap: 0.2rem;
+}
+
+.hint-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
 }
 
 .text-link {
@@ -458,29 +572,46 @@ body::after {
 
 @media (max-width: 720px) {
   body {
-    padding: 0.9rem 0.5rem 9rem;
+    padding: 1rem 0.6rem 9rem;
   }
 
-  .sticky-bar {
-    margin: 0.4rem 0.2rem 0;
-    flex-direction: row;
-    align-items: center;
-  }
-
-  .sticky-right {
-    text-align: left;
+  .lyrics-card {
+    --panel-inset: 0rem;
   }
 
   .sticky-top h2 {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
 
-  .turn-main {
-    font-size: 0.92rem;
+  .sticky-bar {
+    padding: 0.65rem 0.75rem 0;
+  }
+
+  .sticky-bottom {
+    margin: 0;
+    width: 100%;
+  }
+
+  .lyrics-shell {
+    width: 100%;
+  }
+
+  .icon-button {
+    width: 32px;
+    height: 32px;
+  }
+
+  .icon-button svg {
+    width: 14px;
+    height: 14px;
   }
 
   .lyrics {
     padding: 0 1rem;
+  }
+
+  .team-pill.active .team-label {
+    font-size: 0.98rem;
   }
 
   .bottom-actions {
