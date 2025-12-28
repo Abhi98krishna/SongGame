@@ -24,6 +24,81 @@ const songs = [
     translation:
       "There are four days to live\nThe rest are useless days\nThere are four days to live\nThe rest are useless days\nOnce youth goes away, it will not return\nHey, hey, youth will not return",
   },
+  {
+    title: "Tumse Milke Dil Ka Hai Jo Haal",
+    translation:
+      "Love is like a storm, love is like a cyclone\nEvery person in the world is helpless before love\nIn love, everyone is crazy, in love, everyone is amazed\nIn love, everything is difficult, in love, everything is easy\nLook, dear, these sights, these mad ones, these lovers\nHow lost they are in love\nAfter meeting you, the state of my heart, what can I say\nWhat a wonder this has become, what can I say\nAfter meeting you, the state of my heart, what can I say\nWhat a wonder this has become, what can I say",
+  },
+  {
+    title: "Ainvayi Ainvayi",
+    translation:
+      "Your eyes carry bowls of kohl\nThose show-offs look very high-class\nThey scare my heart, they strike with their walk\nThey make my heart flip and ask why, why\nA biscuit soaked in tea\nI just like that, just like that\nJust like that I got looted",
+  },
+  {
+    title: "Badtameez Dil",
+    translation:
+      "Some ghost has climbed on it\nIt does not know how to stop\nNow it cannot tell good from bad\nIt does not know the difference\nThe stubborn fool stands his ground\nIt does not know how to let go\nMischievous heart, rude heart\nIt does not listen, it does not listen",
+  },
+  {
+    title: "Lat Lag Gayi",
+    translation:
+      "Faithless, this heart is very faithless\nIt is not easy to explain it\nFaithless, this heart is very faithless\nFor you it is a devil\nIt did not listen to me even once\nWhether the heart wins or I win\nYou will see\nThe bet is placed with the heart\nI got addicted to you\nThe world says this addiction is wrong",
+  },
+  {
+    title: "Mauja Hi Mauja",
+    translation:
+      "The whole world has blossomed\nNow love has scattered in the air\nThe whole world has blossomed\nNow love has scattered in the air\nYour heart touches the skies\nIt takes flight, see it reach the peaks\nNow it is only joy morning and evening\nNow it is only joy in your love\nNow it is only joy, rock the party",
+  },
+  {
+    title: "Tujhe Dekha Toh Yeh Jaana Sanam",
+    translation:
+      "When I saw you, I knew it, my love\nLove makes one crazy, my love\nWhen I saw you, I knew it, my love\nLove makes one crazy, my love\nWhere do we go from here\nLet us die in your arms",
+  },
+  {
+    title: "Khaike Paan Banaras Waala",
+    translation:
+      "Eating the Banaras paan\nIt opens the locked mind's latch\nEating the Banaras paan\nIt opens the locked mind's latch\nThen it creates such a commotion\nIt straightens everyone's walk\nOh boy from the banks of the Ganga\nOh boy from the banks of the Ganga",
+  },
+  {
+    title: "Tere Liye",
+    translation:
+      "I decorated heavens for you\nI left even divinity for you\nI decorated heavens for you\nI left even divinity for you\nFor you I dance like a madman\nMy promise is I am yours\nNever be separated",
+  },
+  {
+    title: "Uff Teri Adaa",
+    translation:
+      "Swaying and bending, forget the world and dance\nHum a tune, sing and dance\nGet lost in colors, drink and dance\nWith intoxicated eyes, meet my eyes and dance\nOh your style, I like the way you move\nOh your body, I like to see you groove\nOh your gaze, it says I want to dance with you",
+  },
+  {
+    title: "O O Jaane Jaana",
+    translation:
+      "She must be like a beautiful fairy\nWhat do I know\nWhat might my beloved be like\nShe must be like a beautiful fairy\nWhat do I know\nWhat might my beloved be like\nI think of you, I want you\nMy heart says erase all the distance\nOh oh my love\nThis crazy one searches for you\nYou come in dreams every day\nCome into my life",
+  },
+  {
+    title: "Chand Sifarish",
+    translation:
+      "The moon makes a request\nTell you about it\nLower the curtains of modesty and shame\nWe must commit a mistake\nNow the stubborn wish is\nTo erase myself, to vanish into you\nThe moon makes a request\nTell you about it\nLower the curtains of modesty and shame\nWe must commit a mistake",
+  },
+  {
+    title: "O Mere Dil Ke Chain",
+    translation:
+      "When will you come, queen of my dreams\nWhen will the charming season come\nLife keeps passing, when will you come\nCome on, come to me\nWhen will you come, queen of my dreams\nWhen will the charming season come\nLife keeps passing, when will you come\nCome on, come to me, come",
+  },
+  {
+    title: "Haule Haule",
+    translation:
+      "Slowly the breeze feels like medicine\nSlowly it feels like a prayer\nSlowly the moon grows\nSlowly the veil lifts\nSlowly the intoxication rises\nBe patient, my friend\nTake a breath, my beloved\nLet worries be shot down, my friend\nLife has only four days\nSlowly, slowly love will happen",
+  },
+  {
+    title: "Dus Bahane",
+    translation:
+      "In her eyes are stories\nIn her words is magic\nWe got lost in the magic, we lost control\nI looked at you, you looked at me\nAnd it became difficult\nAnd you became my destiny, you are my destination\nMaking ten excuses, they stole my heart",
+  },
+  {
+    title: "Tere Mast Mast Do Nain",
+    translation:
+      "I keep looking at you morning and evening\nYou live in my eyes, like these eyes are yours\nYour two intoxicated eyes\nThey took away my heart's peace\nYour two intoxicated eyes",
+  },
 ];
 
 const roundCount = document.querySelector("#roundCount");
